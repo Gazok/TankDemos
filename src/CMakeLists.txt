@@ -9,5 +9,5 @@ add_executable(render ${sources})
 
 target_link_libraries(render engine)
 if(Cotire)
-    cotire(RenderTest)
+    cotire(render)
 endif(Cotire)
