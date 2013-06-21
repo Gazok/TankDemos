@@ -1,0 +1,35 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
+
+project(RenderTest)
+
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
+set (CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
+
+option(Cotire "Use Cotire" ON)
+if(Cotire)
+    include(cotire)
+endif(Cotire)
+
+if (NOT MSVC)
+    set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
+endif(NOT MSVC)
+
+set(CMAKE_BUILD_TYPE Debug)
+
+option(Debug "Debug mode" ON)
+if(NOT MSVC)
+    option(Warn "Compile using all warnings" ON)
+endif(NOT MSVC)
+
+if(Warn)
+    set (CMAKE_CXX_FLAGS "-Wall -Werror ${CMAKE_CXX_FLAGS}")
+endif(Warn)
+
+if(Debug)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DDEBUG")
+endif(Debug)
+
+set (CMAKE_CXX_FLAGS "-g ${CMAKE_CXX_FLAGS}" )
+
+add_subdirectory(src)
+file(COPY "res" DESTINATION ${CMAKE_BINARY_DIR})
