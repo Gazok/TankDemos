@@ -1,10 +1,11 @@
 file(GLOB sources "*.cpp")
 
-add_subdirectory( Engine )
+add_subdirectory(Engine)
 
 include_directories( ${CMAKE_SOURCE_DIR}/src/Engine )
 link_directories( ${CMAKE_BINARY_DIR}/src/Engine )
 
 add_executable(render ${sources})
 
-target_link_libraries(render engine)
+target_link_libraries(render engine ${OPENGL_LIBRARIES} ${SFML_LIBRARIES}
+    ${GLEW_LIBRARY} ${CMAKE_THREAD_LIBS_INIT})
