@@ -4,5 +4,5 @@
 Drawing::Drawing(tank::Vectorf const& pos)
     : Entity(pos)
 {
-    setGraphic<tank::Image>("res/testimg.png");
+    setGraphic<tank::Image>("res/ball1.png");
 }
