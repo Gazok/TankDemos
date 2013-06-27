@@ -1,7 +1,6 @@
 #ifndef MAINSTATE_HPP
 
 #include "Engine/System/State.hpp"
-#include "Drawing.hpp"
 
 class MainState : public tank::State
 {
