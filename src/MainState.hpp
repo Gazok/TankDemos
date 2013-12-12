@@ -1,17 +1,15 @@
 #ifndef MAINSTATE_HPP
 #define MAINSTATE_HPP
 
-#include <Tank/System/State.hpp>
+#include <Tank/System/World.hpp>
 #include <Tank/Graphics/Font.hpp>
 
-class MainState : public tank::State
+class MainWorld : public tank::World
 {
 public:
-    MainState();
+    MainWorld();
 
     static tank::Font font;
-
-    void update() override;
 };
 
 #endif /* MAINSTATE_HPP */

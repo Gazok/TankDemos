@@ -9,25 +9,32 @@
 #include <Tank/System/Mouse.hpp>
 #include "Animated.hpp"
 
-tank::Font MainState::font;
+tank::Font MainWorld::font;
 
-MainState::MainState()
-    : State()
+MainWorld::MainWorld()
+    : World()
 {
     using namespace tank;
 
     font.loadFromFile("res/font.ttf");
 
-    makeEntity<Entity>()->makeGraphic<Image>("res/zoommap.png");
+    // makeEntity returns an observing_ptr, meaning you can chain access
+    // makeGraphic<typename T> - T defaults to tank::Image
+    makeEntity<Entity>()->makeGraphic("res/zoommap.png");
 
+    // Animated is a derived class of Entity within this project
     makeEntity<Animated>(Vectorf {200,200});
-    auto anim1 = makeEntity<Animated>(Vectorf {60,70});
-    auto& animGfx = anim1->getGraphic();
+
+    observing_ptr<Entity> anim1 = makeEntity<Animated>(Vectorf {60,70});
+    std::unique_ptr<Graphic> const& animGfx = anim1->getGraphic();
+    Rectu hb = anim1->getHitbox();
+
+    // Set the scale of anim1 to 4 and resize its hitbox accordingly
     animGfx->setScale(4);
     animGfx->setOrigin(animGfx->getSize() / 2);
-    auto hb = anim1->getHitbox();
     anim1->setHitbox({- hb.w * 2, - hb.h * 2, hb.w * 2, hb.h * 2});
 
+    // Two different forms of text
     auto bmText = makeEntity<Entity>(Vectorf {300, 20})->makeGraphic<BitmapText>(Image("res/font.png"), Vectori {50, 50});
     bmText->setText("WHEEE!");
     bmText->setRotation(50);
@@ -37,6 +44,7 @@ MainState::MainState()
     ttfText->setRotation(50);
 
 
+    // Camera movement with wasd keys
     connect(Keyboard::KeyDown(Key::A), [this]
             {
                 auto pos = camera().getPos();
@@ -57,6 +65,7 @@ MainState::MainState()
                 auto pos = camera().getPos();
                 camera().setPos(pos + Vectorf{ 0,  2});
             });
+    // Camera rotation with qe keys
     connect(Keyboard::KeyDown(Key::Q), [this]
             {
                 auto rot = camera().getRotation();
@@ -67,6 +76,7 @@ MainState::MainState()
                 auto rot = camera().getRotation();
                 camera().setRotation(rot + 2);
             });
+    // Camera zoom with +- keys
     connect(Keyboard::KeyDown(Key::Add), [this]
             {
                 auto zoom = camera().getZoom().x;
@@ -77,13 +87,16 @@ MainState::MainState()
                 auto zoom = camera().getZoom().x;
                 camera().setZoom(zoom / 1.1f);
             });
+    // Camera movement with rclick + drag
     connect(Mouse::MouseMovement() and Mouse::ButtonDown(Mouse::Button::Right),
             [this]
             {
                 auto dt = Mouse::delta();
                 auto pos = camera().getPos();
+                std::cout << "dt: " << dt << ", pos: " << pos << std::endl;
                 camera().setPos(pos - dt);
             });
+    // Camera zoom with mousewheel
     connect(Mouse::WheelUp(),
             [this]
             {
@@ -96,9 +109,4 @@ MainState::MainState()
                 auto z = camera().getZoom();
                 camera().setZoom(z/1.5);
             });
-}
-
-void MainState::update()
-{
-    State::update();
 }

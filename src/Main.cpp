@@ -6,6 +6,6 @@ int main()
     using tank::Game;
 
     Game::initialize({640, 640});
-    Game::makeState<MainState>();
+    Game::makeWorld<MainWorld>();
     Game::run();
 }
