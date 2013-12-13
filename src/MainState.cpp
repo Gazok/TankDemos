@@ -91,10 +91,14 @@ MainWorld::MainWorld()
     connect(Mouse::MouseMovement() and Mouse::ButtonDown(Mouse::Button::Right),
             [this]
             {
-                auto dt = Mouse::delta();
+                auto const& dx = Mouse::delta();
+                auto const& zoom = camera().getZoom();
                 auto pos = camera().getPos();
-                std::cout << "dt: " << dt << ", pos: " << pos << std::endl;
-                camera().setPos(pos - dt);
+
+                pos.x -= dx.x / zoom.x;
+                pos.y -= dx.y / zoom.y;
+
+                camera().setPos(pos);
             });
     // Camera zoom with mousewheel
     connect(Mouse::WheelUp(),
