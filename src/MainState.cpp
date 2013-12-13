@@ -1,6 +1,5 @@
 #include "MainState.hpp"
 
-#include <iostream>
 #include <Tank/Graphics/Image.hpp>
 #include <Tank/Graphics/BitmapText.hpp>
 #include <Tank/Graphics/RectangleShape.hpp>
@@ -9,6 +8,7 @@
 #include <Tank/System/Keyboard.hpp>
 #include <Tank/System/Mouse.hpp>
 #include "Animated.hpp"
+#include "RectEnt.hpp"
 
 tank::Font MainWorld::font;
 
@@ -19,7 +19,7 @@ MainWorld::MainWorld()
 
     font.loadFromFile("res/font.ttf");
 
-    // makeEntity and makeGraphic each return an observing_ptr, meaning you can 
+    // makeEntity and makeGraphic each return an observing_ptr, meaning you can
     // chain derereferences
     //
     // makeGraphic<typename T> - T defaults to tank::Image, so you don't have to
@@ -51,13 +51,17 @@ MainWorld::MainWorld()
     ttfText->setRotation(50);
 
     // Create a geometric primitive
-    auto rectEnt1 = makeEntity<Entity>(Vectorf {300, 300});
-    rectEnt1->makeGraphic<RectangleShape>(Vectorf {30, 30});
+    makeEntity<RectEnt>(Vectorf {300, 300});
 
-    auto rectEnt2 = makeEntity<Entity>(Vectorf {300, 350});
-    rectEnt2->makeGraphic<RectangleShape>(Vectorf {30, 30});
+    auto rectEnt2 = makeEntity<RectEnt>(Vectorf {300, 350});
     rectEnt2->setRotation(37);
 
+    // Event system uses a general (condition, effect) format, where condition
+    // is a function that returns a boolean and effect is a void function.
+    // Conditions can be ||'d or &&'d together. You can provide your own
+    // conditions and effects using functors, function pointers or lambda
+    // functions (shown here).
+    //
     // Camera movement with wasd keys
     connect(Keyboard::KeyDown(Key::A), [this]
             {
