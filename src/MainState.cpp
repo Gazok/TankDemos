@@ -3,6 +3,7 @@
 #include <iostream>
 #include <Tank/Graphics/Image.hpp>
 #include <Tank/Graphics/BitmapText.hpp>
+#include <Tank/Graphics/RectangleShape.hpp>
 #include <Tank/Graphics/Font.hpp>
 #include <Tank/Graphics/Text.hpp>
 #include <Tank/System/Keyboard.hpp>
@@ -18,23 +19,29 @@ MainWorld::MainWorld()
 
     font.loadFromFile("res/font.ttf");
 
-    // makeEntity returns an observing_ptr, meaning you can chain access
-    // makeGraphic<typename T> - T defaults to tank::Image
+    // makeEntity and makeGraphic each return an observing_ptr, meaning you can 
+    // chain derereferences
+    //
+    // makeGraphic<typename T> - T defaults to tank::Image, so you don't have to
+    // type it
     makeEntity<Entity>()->makeGraphic("res/zoommap.png");
 
-    // Animated is a derived class of Entity within this project
+    // Animated is a derived class of Entity within this demo
     makeEntity<Animated>(Vectorf {200,200});
 
+    // Make a second Animated and keep a pointer to it
     observing_ptr<Entity> anim1 = makeEntity<Animated>(Vectorf {60,70});
+    // Make a pointer to its graphic
     std::unique_ptr<Graphic> const& animGfx = anim1->getGraphic();
-    Rectu hb = anim1->getHitbox();
+    // And copy its hitbox
+    Rectd hb = anim1->getHitbox();
 
     // Set the scale of anim1 to 4 and resize its hitbox accordingly
     animGfx->setScale(4);
     animGfx->setOrigin(animGfx->getSize() / 2);
     anim1->setHitbox({- hb.w * 2, - hb.h * 2, hb.w * 2, hb.h * 2});
 
-    // Two different forms of text
+    // Create two different forms of text and rotate them
     auto bmText = makeEntity<Entity>(Vectorf {300, 20})->makeGraphic<BitmapText>(Image("res/font.png"), Vectori {50, 50});
     bmText->setText("WHEEE!");
     bmText->setRotation(50);
@@ -43,6 +50,13 @@ MainWorld::MainWorld()
     ttfText->setText("WHEEE!");
     ttfText->setRotation(50);
 
+    // Create a geometric primitive
+    auto rectEnt1 = makeEntity<Entity>(Vectorf {300, 300});
+    rectEnt1->makeGraphic<RectangleShape>(Vectorf {30, 30});
+
+    auto rectEnt2 = makeEntity<Entity>(Vectorf {300, 350});
+    rectEnt2->makeGraphic<RectangleShape>(Vectorf {30, 30});
+    rectEnt2->setRotation(37);
 
     // Camera movement with wasd keys
     connect(Keyboard::KeyDown(Key::A), [this]
