@@ -15,11 +15,16 @@ void Animated::onAdded()
 {
     using tank::Mouse;
 
-    connect(Mouse::IsInEntity(*this) and 
+    connect(Mouse::InEntity(*this) and
             Mouse::ButtonDown(Mouse::Button::Left),
             [this]
             {
-                moveBy(Mouse::delta());
+                auto dx = Mouse::delta();
+                auto const& cam = getWorld()->camera();
+
+                dx = dx.rotate(cam.getRotation());
+
+                moveBy(dx);
             });
 }
 void Animated::update()
