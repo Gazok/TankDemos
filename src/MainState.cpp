@@ -66,22 +66,22 @@ MainWorld::MainWorld()
     connect(Keyboard::KeyDown(Key::A), [this]
             {
                 auto pos = camera().getPos();
-                camera().setPos(pos + Vectorf{-2,  0});
+                camera().setPos(pos + Vectorf(-2,  0).rotate(-camera().getRotation()));
             });
     connect(Keyboard::KeyDown(Key::D), [this]
             {
                 auto pos = camera().getPos();
-                camera().setPos(pos + Vectorf{ 2,  0});
+                camera().setPos(pos + Vectorf( 2,  0).rotate(-camera().getRotation()));
             });
     connect(Keyboard::KeyDown(Key::W), [this]
             {
                 auto pos = camera().getPos();
-                camera().setPos(pos + Vectorf{ 0, -2});
+                camera().setPos(pos + Vectorf( 0, -2).rotate(-camera().getRotation()));
             });
     connect(Keyboard::KeyDown(Key::S), [this]
             {
                 auto pos = camera().getPos();
-                camera().setPos(pos + Vectorf{ 0,  2});
+                camera().setPos(pos + Vectorf( 0,  2).rotate(-camera().getRotation()));
             });
     // Camera rotation with qe keys
     connect(Keyboard::KeyDown(Key::Q), [this]
@@ -109,10 +109,12 @@ MainWorld::MainWorld()
     connect(Mouse::MouseMovement() and Mouse::ButtonDown(Mouse::Button::Right),
             [this]
             {
-                auto const& dx = Mouse::delta();
+                tank::Vectord dx = Mouse::delta();
+                const auto rotation = camera().getRotation();
                 auto const& zoom = camera().getZoom();
                 auto pos = camera().getPos();
 
+                dx = dx.rotate(-rotation);
                 pos.x -= dx.x / zoom.x;
                 pos.y -= dx.y / zoom.y;
 
