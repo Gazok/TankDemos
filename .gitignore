@@ -20,6 +20,8 @@ build*/
 # Vim temporary files
 *.swp
 *~
+.ycm_extra_conf.py*
 
 #Qt Creator temporary files
 *.user
+
