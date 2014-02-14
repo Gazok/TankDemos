@@ -1,3 +1,6 @@
 [submodule "src/Engine"]
 	path = src/Engine
 	url = git@github.com:Gazok/Tank.git
+[submodule "Tank2"]
+	path = Tank
+	url = git@github.com:Gazok/Tank.git
