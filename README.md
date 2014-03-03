@@ -1,4 +1,4 @@
-Tank Camera Demo
+Tank OpenGL Demo
 ================
 
 A small example of Tank rendering via OpenGL (now removed)
