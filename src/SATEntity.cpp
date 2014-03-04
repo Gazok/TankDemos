@@ -9,12 +9,24 @@ SATEntity::SATEntity(tank::Vectorf pos,
     using Poly = tank::ConvexShape;
 
     auto poly = std::unique_ptr<Poly> (new Poly(points));
-    poly_ = poly;
-    aabb_ = makeGraphic<tank::RectangleShape>(poly->getSize());
     poly->setFillColor(c);
-    //poly->centreOrigin();
+    poly_ = poly;
+
+    aabb_ = makeGraphic<tank::RectangleShape>(poly->getSize());
     insertGraphic(std::unique_ptr<tank::Graphic>(std::move(poly)));
-    //aabb_->centreOrigin();
+
+    tank::Vectorf min;
+    for (auto&& p : points) {
+        if (p.x < min.x) min.x = p.x;
+        if (p.y < min.y) min.y = p.y;
+    }
+
+    auto hitbox = getHitbox();
+    hitbox.x = min.x;
+    hitbox.y = min.y;
+    setHitbox(hitbox);
+    aabb_->setPos(min);
+
     setType("SAT");
 }
 
