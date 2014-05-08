@@ -23,6 +23,7 @@ void Axis::update()
     for (auto&& line : lines_) {
         removeGraphic(line);
     }
+    lines_.clear();
     setPos(getWorld()->camera().getPos() + getWorld()->camera().getOrigin());
 }
 
