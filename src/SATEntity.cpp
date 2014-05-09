@@ -4,7 +4,8 @@ SATEntity::SATEntity(tank::Vectorf pos,
                      std::vector<tank::Vectorf> const& points,
                      tank::Color c)
     : tank::Entity(pos)
-    , collisionShape_{points.begin(), points.end()}
+    , collisionShape_ {points.begin(), points.end()}
+    , color_ {c}
 {
     using Poly = tank::ConvexShape;
 
@@ -32,6 +33,13 @@ SATEntity::SATEntity(tank::Vectorf pos,
 
 void SATEntity::update()
 {
+    if (not intersected_) {
+        poly_->setFillColor(color_);
+    } else {
+        poly_->setFillColor({255,255,255});
+        intersected_ = false;
+    }
+
     if (collide("SAT").empty()) {
         aabb_->setFillColor({0,255,0,50});
     } else {
