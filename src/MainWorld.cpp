@@ -24,11 +24,9 @@ MainWorld::MainWorld()
     /* Create axes normal to edges of first shape */
     for (auto&& axis : normals(p1)) {
         axes_.push_back(makeEntity<Axis>(axis));
-        axes_.back()->project(satEnts_.back());
     }
     for (auto&& axis : normals(p2)) {
         axes_.push_back(makeEntity<Axis>(axis));
-        axes_.back()->project(satEnts_.back());
     }
 
     /* Control last SATEntity with wasd */
@@ -54,6 +52,27 @@ void MainWorld::update()
     for (auto&& entity : satEnts_) {
         for (auto&& axis : axes_) {
            axis->project(entity);
+        }
+    }
+
+    for (auto iter1 = satEnts_.begin(); iter1 != satEnts_.end() - 1; ++iter1)
+    {
+        for (auto iter2 = iter1 + 1; iter2 != satEnts_.end(); ++iter2)
+        {
+            bool intersection = true;
+            for (auto&& axis : axes_)
+            {
+                if (not axis->intersect(*iter1, *iter2))
+                {
+                    intersection = false;
+                    break;
+                }
+            }
+            if (intersection)
+            {
+                (*iter1)->setIntersected();
+                (*iter2)->setIntersected();
+            }
         }
     }
 }
