@@ -9,8 +9,9 @@
 class Axis : public tank::Entity
 {
     using Entity = tank::observing_ptr<SATEntity>;
+    using Shape = std::vector<tank::Vectord>;
     using Line = tank::observing_ptr<tank::RectangleShape>;
-    std::vector<Line> lines_;
+    std::vector<Line> projections_;
     tank::Vectord dir_;
 
 public:
@@ -19,7 +20,9 @@ public:
 
     virtual void update() override;
 
+    std::pair<double, double> project(Shape const&);
     void project(Entity);
+    bool intersect(Entity, Entity);
 };
 
 #endif /* AXIS_HPP */
