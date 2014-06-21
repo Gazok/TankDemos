@@ -18,7 +18,9 @@ class SATEntity : public tank::Entity
     const tank::Color color_;
 
 public:
-    SATEntity(tank::Vectorf, std::vector<tank::Vectorf> const& points, tank::Color);
+    SATEntity(tank::Vectorf,
+              std::vector<tank::Vectorf> const& points,
+              tank::Color);
 
     Shape const& getCollisionShape() const { return collisionShape_; }
     Poly const& getPoly() const { return poly_; }

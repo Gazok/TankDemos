@@ -36,13 +36,13 @@ void SATEntity::update()
     if (not intersected_) {
         poly_->setFillColor(color_);
     } else {
-        poly_->setFillColor({255,255,255});
+        poly_->setFillColor({255, 255, 255});
         intersected_ = false;
     }
 
     if (collide("SAT").empty()) {
-        aabb_->setFillColor({0,255,0,50});
+        aabb_->setFillColor({0, 255, 0, 50});
     } else {
-        aabb_->setFillColor({255,0,0,50});
+        aabb_->setFillColor({255, 0, 0, 50});
     }
 }
