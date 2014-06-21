@@ -2,6 +2,6 @@ file(GLOB sources *.cpp *.hpp)
 
 include_directories(${CMAKE_SOURCE_DIR}/src/Engine)
 
-add_executable(test ${sources})
+add_executable(camera ${sources})
 
-target_link_libraries(test tank)
+target_link_libraries(camera tank)
