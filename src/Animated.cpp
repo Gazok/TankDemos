@@ -24,7 +24,7 @@ void Animated::onAdded()
             [this]
             {
                 auto dx = Mouse::delta();
-                auto const& cam = getWorld()->camera();
+                auto const& cam = getWorld()->camera;
                 auto const zoom = cam.getZoom();
 
                 dx = dx.rotate(cam.getRotation());

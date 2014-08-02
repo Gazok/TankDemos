@@ -2,7 +2,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
 project(CamTest)
 
-add_subdirectory(Tank)
+add_subdirectory(tank)
 
 include_directories(${TANK_INCLUDE_DIRS})
 
