@@ -97,13 +97,13 @@ MainWorld::MainWorld()
     // Camera zoom with +- keys
     connect(Keyboard::KeyDown(Key::Add), [this]
             {
-                auto zoom = camera.getZoom().x;
-                camera.setZoom(zoom * 1.1f);
+                auto zoom = camera.getScale().x;
+                camera.setScale(zoom * 1.1f);
             });
     connect(Keyboard::KeyDown(Key::Subtract), [this]
             {
-                auto zoom = camera.getZoom().x;
-                camera.setZoom(zoom / 1.1f);
+                auto zoom = camera.getScale().x;
+                camera.setScale(zoom / 1.1f);
             });
     // Camera movement with rclick + drag
     connect(Mouse::MouseMovement() and Mouse::ButtonDown(Mouse::Button::Right),
@@ -111,7 +111,7 @@ MainWorld::MainWorld()
             {
                 tank::Vectord dx = Mouse::delta();
                 const auto rotation = camera.getRotation();
-                auto const& zoom = camera.getZoom();
+                auto const& zoom = camera.getScale();
                 auto pos = camera.getPos();
 
                 dx = dx.rotate(-rotation);
@@ -124,13 +124,13 @@ MainWorld::MainWorld()
     connect(Mouse::WheelUp(),
             [this]
             {
-                auto z = camera.getZoom();
-                camera.setZoom(z*1.5);
+                auto z = camera.getScale();
+                camera.setScale(z*1.5);
             });
     connect(Mouse::WheelDown(),
             [this]
             {
-                auto z = camera.getZoom();
-                camera.setZoom(z/1.5);
+                auto z = camera.getScale();
+                camera.setScale(z/1.5);
             });
 }
