@@ -66,33 +66,33 @@ MainWorld::MainWorld()
     connect(Keyboard::KeyDown(Key::A), [this]
             {
                 auto pos = camera.getPos();
-                camera.setPos(pos + Vectorf(-2,  0).rotate(-camera.getRotation()));
+                camera.setPos(pos + Vectorf( 2,  0).rotate(-camera.getRotation()));
             });
     connect(Keyboard::KeyDown(Key::D), [this]
             {
                 auto pos = camera.getPos();
-                camera.setPos(pos + Vectorf( 2,  0).rotate(-camera.getRotation()));
+                camera.setPos(pos + Vectorf(-2,  0).rotate(-camera.getRotation()));
             });
     connect(Keyboard::KeyDown(Key::W), [this]
             {
                 auto pos = camera.getPos();
-                camera.setPos(pos + Vectorf( 0, -2).rotate(-camera.getRotation()));
+                camera.setPos(pos + Vectorf( 0,  2).rotate(-camera.getRotation()));
             });
     connect(Keyboard::KeyDown(Key::S), [this]
             {
                 auto pos = camera.getPos();
-                camera.setPos(pos + Vectorf( 0,  2).rotate(-camera.getRotation()));
+                camera.setPos(pos + Vectorf( 0, -2).rotate(-camera.getRotation()));
             });
     // Camera rotation with qe keys
     connect(Keyboard::KeyDown(Key::Q), [this]
             {
                 auto rot = camera.getRotation();
-                camera.setRotation(rot - 2);
+                camera.setRotation(rot + 2);
             });
     connect(Keyboard::KeyDown(Key::E), [this]
             {
                 auto rot = camera.getRotation();
-                camera.setRotation(rot + 2);
+                camera.setRotation(rot - 2);
             });
     // Camera zoom with +- keys
     connect(Keyboard::KeyDown(Key::Add), [this]
