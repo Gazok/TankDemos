@@ -66,22 +66,22 @@ MainWorld::MainWorld()
     connect(Keyboard::KeyDown(Key::A), [this]
             {
                 auto pos = camera.getPos();
-                camera.setPos(pos + Vectorf( 2,  0).rotate(-camera.getRotation()));
+                camera.setPos(pos + Vectorf( 2,  0));
             });
     connect(Keyboard::KeyDown(Key::D), [this]
             {
                 auto pos = camera.getPos();
-                camera.setPos(pos + Vectorf(-2,  0).rotate(-camera.getRotation()));
+                camera.setPos(pos + Vectorf(-2,  0));
             });
     connect(Keyboard::KeyDown(Key::W), [this]
             {
                 auto pos = camera.getPos();
-                camera.setPos(pos + Vectorf( 0,  2).rotate(-camera.getRotation()));
+                camera.setPos(pos + Vectorf( 0,  2));
             });
     connect(Keyboard::KeyDown(Key::S), [this]
             {
                 auto pos = camera.getPos();
-                camera.setPos(pos + Vectorf( 0, -2).rotate(-camera.getRotation()));
+                camera.setPos(pos + Vectorf( 0, -2));
             });
     // Camera rotation with qe keys
     connect(Keyboard::KeyDown(Key::Q), [this]
@@ -110,13 +110,10 @@ MainWorld::MainWorld()
             [this]
             {
                 tank::Vectord dx = Mouse::delta();
-                const auto rotation = camera.getRotation();
-                auto const& zoom = camera.getScale();
                 auto pos = camera.getPos();
 
-                dx = dx.rotate(-rotation);
-                pos.x -= dx.x / zoom.x;
-                pos.y -= dx.y / zoom.y;
+                pos.x += dx.x;
+                pos.y += dx.y;
 
                 camera.setPos(pos);
             });
